@@ -1,0 +1,4 @@
+---
+default_stack_name: "{{ stack_name | mandatory }}"
+default_deployment_timestamp: "{{ deployment_timestamp | mandatory }}"
+...
