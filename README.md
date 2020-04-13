@@ -2,9 +2,11 @@
 
 This ansible role permits to easily remove docker stack's configs and secrets. 
 
+Installation from [ansible galaxy](https://galaxy.ansible.com/youtous/docker_config_secreys_cleaner): `ansible-galaxy install youtous.docker_config_secrets_cleaner`
+
 ```yaml
 - name: docker prune secrets and configs
-  include_role: youtous.docker-configs-secrets-cleaner
+  include_role: youtous.docker_configs_secrets_cleaner
   vars:
     stack_name: "my_stack" # mandatory
     deployment_timestamp: "515155544554" # mandatory

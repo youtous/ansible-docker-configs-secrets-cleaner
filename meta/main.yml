@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  role_name: docker-config-secreys-cleaner
+  role_name: docker-config-secrets-cleaner
   author: youtous
   description: Clean docker configs and secrets using a timestamp filter
   company: none
