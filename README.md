@@ -30,7 +30,5 @@ configs:
 - According the regex used `.*\s+{{ stack_name }}_.*-(?!{{ deployment_timestamp }})\d+.*\n` configs and secret without a timestamp will not be affected.
 - Due to this bug https://github.com/ansible/ansible/issues/20493, this role cannot be used in handlers.
 
-_todo : molecule tests and register on ansible-galaxy_
-
 ### Licence
 MIT
