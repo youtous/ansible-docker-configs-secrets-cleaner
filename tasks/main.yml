@@ -2,7 +2,7 @@
 # remove old docker secrets
 - name: docker remove old stack secrets | listing
   shell: >
-    docker secret ls | grep -zoP '.*\s+{{ default_stack_name }}_.*-(?!{{ default_deployment_timestamp }})\d+.*\n' | awk '{print $2}'
+    docker secret ls | grep -zoP '.*\s+{{ default_stack_name|quote }}_.*-(?!{{ default_deployment_timestamp|quote }})\d+.*\n' | awk '{print $2}'
   register: docker_stack_secrets
   listen: docker prune
   notify: docker prune stack secrets
@@ -16,7 +16,7 @@
 # remove old docker configs
 - name: docker remove old stack configs | listing
   shell: >
-    docker config ls | grep -zoP '.*\s+{{ default_stack_name }}_.*-(?!{{ default_deployment_timestamp }})\d+.*\n' | awk '{print $2}'
+    docker config ls | grep -zoP '.*\s+{{ default_stack_name|quote }}_.*-(?!{{ default_deployment_timestamp|quote }})\d+.*\n' | awk '{print $2}'
   register: docker_stack_configs
   listen: docker prune
   notify: docker prune stack configs
