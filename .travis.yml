@@ -6,8 +6,10 @@ before_install:
   - sudo apt-get install -qq python-apt python-pycurl
 install:
   - pip install ansible==2.9.6
+  - pip install ansible-lint
 
-script: []
+script:
+  - ansible-lint
   # Basic role syntax check
   # - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
 
