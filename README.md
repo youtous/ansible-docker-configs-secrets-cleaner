@@ -6,7 +6,7 @@ Installation from [ansible galaxy](https://galaxy.ansible.com/youtous/docker_con
 
 ```yaml
 - name: docker prune secrets and configs
-  include_role: youtous.docker_configs_secrets_cleaner
+  ansible.builtin.include_role: youtous.docker_configs_secrets_cleaner
   vars:
     stack_name: "my_stack" # mandatory
     deployment_timestamp: "515155544554" # mandatory
