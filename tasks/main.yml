@@ -1,22 +1,24 @@
 ---
 # remove old docker secrets
-- name: docker remove old stack secrets | listing
+- name: docker remove old stack secrets | listing # noqa no-changed-when
   ansible.builtin.shell: >
+    set -o pipefail &&
     docker secret ls | grep -zoP '.*\s+{{ default_stack_name|quote }}_.*-(?!{{ default_deployment_timestamp|quote }})\d+.*\n' | awk '{print $2}'
   register: docker_stack_secrets
   listen: docker prune
   notify: docker prune stack secrets
 
 - name: docker remove old stack secrets | removing
-  docker_secret:
+  community.general.docker_secret:
     name: "{{ item }}"
     state: absent
   with_items: "{{ docker_stack_secrets.stdout_lines }}"
   listen: docker prune stack secrets
 
 # remove old docker configs
-- name: docker remove old stack configs | listing
+- name: docker remove old stack configs | listing # noqa no-changed-when
   ansible.builtin.shell: >
+    set -o pipefail &&
     docker config ls | grep -zoP '.*\s+{{ default_stack_name|quote }}_.*-(?!{{ default_deployment_timestamp|quote }})\d+.*\n' | awk '{print $2}'
   register: docker_stack_configs
   listen: docker prune
