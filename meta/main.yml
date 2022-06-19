@@ -13,7 +13,6 @@ galaxy_info:
     - name: GenericUNIX
       versions:
         - all
-        - any
     - name: Fedora
       versions:
         - all
@@ -29,7 +28,6 @@ galaxy_info:
     - name: GenericLinux
       versions:
         - all
-        - any
     - name: Debian
       versions:
         - all
