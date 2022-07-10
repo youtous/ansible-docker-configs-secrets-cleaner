@@ -1,37 +1,46 @@
 ---
+- name: Verify cleaning parameters are defined and not empty
+  ansible.builtin.assert:
+    that:
+      - stack_name is defined and stack_name|length
+      - deployment_timestamp is defined and stack_name|length
+    msg:
+      - "stack_name must be defined an not empty"
+      - "deployment_timestamp must be defined an not empty"
+
 # remove old docker secrets
-- name: docker remove old stack secrets | listing # noqa no-changed-when
+- name: "docker remove old stack secrets - {{ stack_name }} | listing"
   ansible.builtin.shell: >
     set -o pipefail &&
-    docker secret ls | grep -zoP '.*\s+{{ default_stack_name|quote }}_.*-(?!{{ default_deployment_timestamp|quote }})\d+.*\n' | awk '{print $2}'
+    docker secret ls | grep -zoP '.*\s+{{ stack_name|quote }}(\_|\-).*-(?!{{ deployment_timestamp|quote }})\d+.*\n'
+    | awk '{print $2}' | sed -r '/^\s*$/d'
   register: docker_stack_secrets
-  listen: docker prune
-  notify: docker prune stack secrets
+  changed_when: false
+  ignore_errors: true
   args:
     executable: /bin/bash
 
-- name: docker remove old stack secrets | removing
-  community.general.docker_secret:
+- name: "docker remove old stack secrets - {{ stack_name }} | removing"
+  community.docker.docker_secret:
     name: "{{ item }}"
     state: absent
   with_items: "{{ docker_stack_secrets.stdout_lines }}"
-  listen: docker prune stack secrets
 
 # remove old docker configs
-- name: docker remove old stack configs | listing # noqa no-changed-when
+- name: "docker remove old stack configs - {{ stack_name }} | listing"
   ansible.builtin.shell: >
     set -o pipefail &&
-    docker config ls | grep -zoP '.*\s+{{ default_stack_name|quote }}_.*-(?!{{ default_deployment_timestamp|quote }})\d+.*\n' | awk '{print $2}'
+    docker config ls | grep -zoP '.*\s+{{ stack_name|quote }}(\_|\-).*-(?!{{ deployment_timestamp|quote }})\d+.*\n'
+    | awk '{print $2}' | sed -r '/^\s*$/d'
   register: docker_stack_configs
-  listen: docker prune
-  notify: docker prune stack configs
+  ignore_errors: true
+  changed_when: false
   args:
     executable: /bin/bash
 
-- name: docker remove old stack configs | removing
-  community.general.docker_config:
+- name: "docker remove old stack configs - {{ stack_name }} | removing"
+  community.docker.docker_config:
     name: "{{ item }}"
     state: absent
   with_items: "{{ docker_stack_configs.stdout_lines }}"
-  listen: docker prune stack configs
 ...

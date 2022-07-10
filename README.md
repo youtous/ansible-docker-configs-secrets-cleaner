@@ -6,7 +6,8 @@ Installation from [ansible galaxy](https://galaxy.ansible.com/youtous/docker_con
 
 ```yaml
 - name: docker prune secrets and configs
-  ansible.builtin.include_role: youtous.docker_configs_secrets_cleaner
+  ansible.builtin.include_role: 
+    name: youtous.docker_configs_secrets_cleaner
   vars:
     stack_name: "my_stack" # mandatory
     deployment_timestamp: "515155544554" # mandatory
@@ -29,8 +30,9 @@ configs:
 
 ### Discussion
 
-- According the regex used `.*\s+{{ stack_name }}_.*-(?!{{ deployment_timestamp }})\d+.*\n` configs and secret without a timestamp will not be affected.
+- According the regex used `'.*\s+{{ stack_name }}(\_|\-).*-(?!{{ deployment_timestamp }})\d+.*\n'` configs and secret without a timestamp will not be affected.
 - Due to this bug https://github.com/ansible/ansible/issues/20493, this role cannot be used in handlers.
 
 ### Licence
+
 MIT
