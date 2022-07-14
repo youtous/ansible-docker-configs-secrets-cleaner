@@ -32,6 +32,9 @@ jobs:
 
       - name: Install test dependencies.
         run: pip3 install pre-commit ansible yamllint
+      
+      - name: Install requirements from molecule
+        run: ansible-galaxy install -r molecule/default/requirements.yml
 
       - name: Run pre-commit rules
         run: pre-commit run --all-files
