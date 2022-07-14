@@ -1,0 +1,54 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  vars:
+    stack_name: "my_test_stack"
+    deployment_timestamp_to_keep: "1657820251"
+    deployment_timestamp_to_delete: "1657820220"
+  tasks:
+    - name: Create a secret to keep
+      ansible.builtin.command: docker secret inspect my_secret_to_keep
+      register: my_secret_to_keep
+      ignore_errors: true
+      changed_when: false
+
+    - name: Create a config to keep
+      ansible.builtin.command: docker config inspect my_config_to_keep
+      register: my_config_to_keep
+      ignore_errors: true     
+      changed_when: false
+
+    - name: Create a secret to delete
+      ansible.builtin.command: docker secret inspect "{{ stack_name }}_my_secret-{{ deployment_timestamp_to_delete }}"
+      register: my_stack_secret_to_delete
+      ignore_errors: true     
+      changed_when: false
+
+    - name: Create a config to delete
+      ansible.builtin.command: docker config inspect "{{ stack_name }}_my_config-{{ deployment_timestamp_to_delete }}"
+      register: my_stack_config_to_delete
+      ignore_errors: true     
+      changed_when: false
+
+    - name: Create a secret to delete
+      ansible.builtin.command: docker secret inspect "{{ stack_name }}_my_secret-{{ deployment_timestamp_to_keep }}"
+      register: my_stack_secret_to_keep
+      ignore_errors: true     
+      changed_when: false
+
+    - name: Create a config to delete
+      ansible.builtin.command: docker config inspect "{{ stack_name }}_my_config-{{ deployment_timestamp_to_keep }}"
+      register: my_stack_config_to_keep
+      ignore_errors: true     
+      changed_when: false
+
+    - name: Check expected state
+      ansible.builtin.assert:
+        that:
+          - my_stack_config_to_delete.failed is true
+          - my_stack_secret_to_delete.failed is true
+          - my_stack_config_to_keep.failed is false
+          - my_stack_secret_to_keep.failed is false          
+          - my_config_to_keep.failed is false
+          - my_secret_to_keep.failed is false

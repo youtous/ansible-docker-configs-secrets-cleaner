@@ -12,6 +12,12 @@ Installation from [ansible galaxy](https://galaxy.ansible.com/youtous/docker_con
     stack_name: "my_stack" # mandatory
     deployment_timestamp: "515155544554" # mandatory
 ```
+### Requirements
+
+Packages that must be present on the system:
+- gawk
+- sed
+- grep
 
 ### Usage
 
@@ -30,7 +36,7 @@ configs:
 
 ### Discussion
 
-- According the regex used `'.*\s+{{ stack_name }}(\_|\-).*-(?!{{ deployment_timestamp }})\d+.*\n'` configs and secret without a timestamp will not be affected.
+- According the regex used `'.*\s+{{ stack_name }}.*(\_|\-)(?!{{ deployment_timestamp }})\d+.*\n'` configs and secret without a timestamp will not be affected.
 - Due to this bug https://github.com/ansible/ansible/issues/20493, this role cannot be used in handlers, a temporary workaround is:
 ```yaml
 - name: Deploy traefik

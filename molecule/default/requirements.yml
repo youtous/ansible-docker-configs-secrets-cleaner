@@ -1,0 +1,11 @@
+collections:
+  - name: community.general
+  - name: community.docker
+
+roles:
+  - name: geerlingguy.pip
+    src: https://github.com/geerlingguy/ansible-role-pip.git
+    version: 248ac65fbbf9708c57f4fd37e9fff72c9fa9f541
+  - name: geerlingguy.docker
+    src: https://github.com/geerlingguy/ansible-role-docker.git
+    version: f583d39a84c28857cff572a96ae3da1d6310cbb7

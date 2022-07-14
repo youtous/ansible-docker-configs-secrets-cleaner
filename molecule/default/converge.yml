@@ -1,0 +1,92 @@
+---
+- name: Converge
+  hosts: all
+  pre_tasks:
+    - name: Update apt cache.
+      ansible.builtin.apt: 
+        update_cache: true  
+        cache_valid_time: 600
+      when: ansible_os_family == 'Debian'
+
+    - name: Wait for systemd to complete initialization.  # noqa 303
+      ansible.builtin.command: systemctl is-system-running
+      register: systemctl_status
+      until: >
+        'running' in systemctl_status.stdout or
+        'degraded' in systemctl_status.stdout
+      retries: 30
+      delay: 5
+      when: ansible_service_mgr == 'systemd'
+      changed_when: false
+      failed_when: systemctl_status.rc > 1
+  vars:
+    stack_name: "my_test_stack"
+    deployment_timestamp_to_keep: "1657820251"
+    deployment_timestamp_to_delete: "1657820220"
+  tasks:
+    - name: Install pip 
+      ansible.builtin.import_role:
+        name: geerlingguy.pip   
+      vars:
+        pip_install_packages:
+          - name: docker
+
+    - name: Install docker 
+      ansible.builtin.import_role:
+        name: geerlingguy.docker
+      vars:
+        docker_install_compose: false
+    
+    - name: Install required packages
+      ansible.builtin.package:
+        name:
+          - gawk
+          - sed
+          - grep
+        state: present
+
+    - name: Init a new swarm with default parameters
+      community.docker.docker_swarm:
+        state: present
+      
+    - name: Create a secret to keep
+      community.docker.docker_secret:
+        name: my_secret_to_keep
+        data: Goodnight everyone! (secret)
+        state: present    
+
+    - name: Create a config to keep
+      community.docker.docker_config:
+        name: my_config_to_keep
+        data: Goodnight everyone!
+        state: present    
+
+    - name: Create a stack secret to delete
+      community.docker.docker_secret:
+        name: "{{ stack_name }}_my_secret-{{ deployment_timestamp_to_delete }}"
+        data: Goodnight everyone! (secret)
+        state: present    
+
+    - name: Create a stack config to delete
+      community.docker.docker_config:
+        name: "{{ stack_name }}_my_config-{{ deployment_timestamp_to_delete }}"
+        data: Goodnight everyone!
+        state: present
+
+    - name: Create a stack secret to keep
+      community.docker.docker_secret:
+        name: "{{ stack_name }}_my_secret-{{ deployment_timestamp_to_keep }}"
+        data: Goodnight everyone! (secret)
+        state: present    
+
+    - name: Create a stack config to keep
+      community.docker.docker_config:
+        name: "{{ stack_name }}_my_config-{{ deployment_timestamp_to_keep }}"
+        data: Goodnight everyone!
+        state: present
+
+    - name: "Include docker_configs_secrets_cleaner"
+      ansible.builtin.include_role:
+        name: "docker_configs_secrets_cleaner"
+      vars:
+        deployment_timestamp: "{{ deployment_timestamp_to_keep }}"
