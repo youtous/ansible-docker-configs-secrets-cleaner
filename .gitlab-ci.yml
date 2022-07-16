@@ -21,7 +21,9 @@ lint:
 
 tests-molecule:
   image: docker:stable-dind
-  only: # this step is disabled because of the unavailability to spawn docker daemon in dind containers
+  only:
+    # this step is disabled because of the unavailability to spawn docker daemon in dind containers
+    - molecule-tests
   stage: test
   variables:
     PY_COLORS: '1'
