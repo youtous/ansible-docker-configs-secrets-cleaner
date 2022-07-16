@@ -6,8 +6,7 @@ name = "pypi"
 [packages]
 ansible = "*"
 ansible-lint = "*"
-molecule = "*"
-molecule-docker = "*"
+molecule = {extras = ["docker"], version = "*"}
 
 [dev-packages]
 
