@@ -1,4 +1,8 @@
 # youtous/ansible-docker-configs-secrets-cleaner
+[![pipeline status](https://gitlab.com/youtous/ansible-docker-configs-secrets-cleaner/badges/master/pipeline.svg)](https://gitlab.com/youtous/ansible-docker-configs-secrets-cleaner/-/commits/master)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+[![Licence](https://img.shields.io/github/license/youtous/ansible-docker-configs-secrets-cleaner)](https://github.com/youtous/ansible-docker-configs-secrets-cleaner/blob/master/LICENSE)
+
 
 This ansible role permits to easily remove docker stack's configs and secrets.
 
