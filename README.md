@@ -62,6 +62,6 @@ configs:
   when: stack_deploy_status.changed # noqa no-handler - until include_role is support in handlers...
 ```
 
-### Licence
+### License
 
 MIT
