@@ -62,7 +62,7 @@ release:
     # install github cli
     - curl -SL https://github.com/cli/cli/releases/download/v2.14.2/gh_2.14.2_linux_amd64.tar.gz -o /tmp/gh.tar.gz
     - echo "3d4be4bf3446622c51192529f963d8719a2c78cc545aeab6fefff1c9ecf5b346  /tmp/gh.tar.gz" | sha256sum -c
-    - cd /tmp && tar -xf gh.tar.gz && mv gh_2.14.2_linux_amd64/bin/gh /usr/local/bin && chmod +x /usr/local/bin/gh
+    - (cd /tmp && tar -xf gh.tar.gz && mv gh_2.14.2_linux_amd64/bin/gh /usr/local/bin && chmod +x /usr/local/bin/gh)
   script:
     - echo "running release_job for version $CI_COMMIT_TAG"
     - export RELEASE_DESCRIPTION="$(~/go/bin/changelog show $CI_COMMIT_TAG)"
@@ -70,7 +70,7 @@ release:
     - echo "$RELEASE_DESCRIPTION"
     # gitlab release
     - /usr/local/bin/release-cli create --name "$CI_COMMIT_TAG" --tag-name "$CI_COMMIT_TAG" --description "$RELEASE_DESCRIPTION"
-    # github release (must have a GITHUB_TOKEN and GITHUB_REPO)
+    # github release (must have a GH_TOKEN and GITHUB_REPO)
     - if [ -z "$GITHUB_REPO" ]; then export GITHUB_REPO="$CI_PROJECT_PATH"; else echo "Github Repo = $GITHUB_REPO"; fi
     - /usr/local/bin/gh release create "$CI_COMMIT_TAG" --repo "$GITHUB_REPO" --notes "$RELEASE_DESCRIPTION"
 
