@@ -25,6 +25,8 @@ tests-molecule:
   variables:
     PY_COLORS: '1'
     ANSIBLE_FORCE_COLOR: '1'
+    DOCKER_HOST: tcp://docker:2375/
+    DOCKER_DRIVER: overlay2
   parallel:
     matrix:
       - MOLECULE_DISTRO:
