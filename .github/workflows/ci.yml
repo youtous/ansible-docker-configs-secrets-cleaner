@@ -33,8 +33,8 @@ jobs:
       - name: Install test dependencies.
         run: pip3 install pre-commit ansible yamllint
 
-      - name: Install requirements from molecule
-        run: ansible-galaxy install -r molecule/default/requirements.yml
+      - name: Install requirements if it exists
+        run: '(test -f requirements.yml && ansible-galaxy install -r requirements.yml) || echo requirements.yml does not exist, skipping step'
 
       - name: Run pre-commit rules including ansible-lint
         run: pre-commit run --all-files
