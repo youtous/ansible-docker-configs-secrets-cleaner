@@ -45,7 +45,7 @@ jobs:
     strategy:
       matrix:
         distro:
-          - rockylinux9
+          #- rockylinux9
           - rockylinux8
           - ubuntu2204
           - ubuntu2004
