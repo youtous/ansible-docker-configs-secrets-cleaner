@@ -13,6 +13,7 @@ platforms:
       - /sys:/sys:ro # required for dind, we mount all /sys until https://github.com/geerlingguy/docker-ubuntu2004-ansible/issues/18 is fixed
     privileged: true
     pre_build_image: true
+
 provisioner:
   name: ansible
 verifier:

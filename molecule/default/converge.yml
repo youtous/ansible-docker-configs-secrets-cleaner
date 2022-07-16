@@ -87,6 +87,6 @@
 
     - name: "Include docker_configs_secrets_cleaner"
       ansible.builtin.include_role:
-        name: "docker_configs_secrets_cleaner"
+        name: "youtous.docker_configs_secrets_cleaner"
       vars:
         deployment_timestamp: "{{ deployment_timestamp_to_keep }}"
