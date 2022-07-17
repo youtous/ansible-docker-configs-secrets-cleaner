@@ -5,7 +5,7 @@ galaxy_info:
   description: Clean docker configs and secrets using a timestamp filter
   company: none
   license: MIT
-  min_ansible_version: "2.9"
+  min_ansible_version: "2.11"
   platforms:
     - name: EL
       versions:

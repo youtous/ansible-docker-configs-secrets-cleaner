@@ -18,10 +18,12 @@ Installation from [ansible galaxy](https://galaxy.ansible.com/youtous/docker_con
 ```
 ### Requirements
 
-Packages that must be present on the system:
-- gawk
-- sed
-- grep
+- ansible-core 2.11+
+- [community.docker](https://galaxy.ansible.com/community/docker) collection
+- Packages that must be present on the system:
+  - gawk
+  - sed
+  - grep
 
 ### Usage
 
