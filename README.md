@@ -1,10 +1,14 @@
 # youtous/ansible-docker-configs-secrets-cleaner
 [![pipeline status](https://gitlab.com/youtous/ansible-docker-configs-secrets-cleaner/badges/master/pipeline.svg)](https://gitlab.com/youtous/ansible-docker-configs-secrets-cleaner/-/commits/master)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+[![GitHub Repo stars](https://img.shields.io/github/stars/youtous/ansible-docker-configs-secrets-cleaner?label=✨%20youtous%2Fansible-docker-configs-secrets-cleaner&style=social)](https://github.com/youtous/ansible-docker-configs-secrets-cleaner/)
+[![Gitlab Repo](https://img.shields.io/badge/gitlab.com%2Fyoutous%2Fansible--docker--configs--secrets--cleaner?label=✨%20youtous%2Fansible-docker-configs-secrets-cleaner&style=social&logo=gitlab)](https://gitlab.com/youtous/ansible-docker-configs-secrets-cleaner/)
 [![Licence](https://img.shields.io/github/license/youtous/ansible-docker-configs-secrets-cleaner)](https://github.com/youtous/ansible-docker-configs-secrets-cleaner/blob/master/LICENSE)
 
 
 This ansible role permits to easily remove docker stack's configs and secrets.
+
+After a successful deployment, you might want to delete old docker secrets/configs from your docker swarm cluster. The default behavior is to keep those files. This role makes deletion of those easily using a timestamp control on the resource's name.
 
 Installation from [ansible galaxy](https://galaxy.ansible.com/youtous/docker_configs_secrets_cleaner): `ansible-galaxy install youtous.docker_configs_secrets_cleaner`
 
