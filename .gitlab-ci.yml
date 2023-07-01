@@ -14,10 +14,10 @@ lint:
   image: python:latest
   stage: test
   before_script:
-    - pip install pre-commit ansible yamllint
+    - pip install pipenv
+    - pipenv install
   script:
-    - (test -f requirements.yml && ansible-galaxy install -r requirements.yml) || echo requirements.yml does not exist, skipping step
-    - pre-commit run --all-files
+    - pipenv run pre-commit run --all-files --show-diff-on-failure
 
 tests-molecule:
   image: docker:stable-dind
@@ -35,6 +35,7 @@ tests-molecule:
           - rockylinux8
           - ubuntu2204
           - ubuntu2004
+          - debian12
           - debian11
           - debian10
   before_script:
@@ -44,11 +45,11 @@ tests-molecule:
       musl-dev libffi-dev openssl-dev openssh
     - docker info
     - python3 --version
-    - python3 -m pip install ansible molecule[docker]
-    - ansible --version
-    - molecule --version
+    - python3 -m pip install pipenv
+    - pipenv run ansible --version
+    - pipenv run molecule --version
   script:
-    - molecule test
+    - pipenv run molecule test
 
 release:
   stage: release
