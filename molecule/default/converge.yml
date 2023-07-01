@@ -8,7 +8,7 @@
         cache_valid_time: 600
       when: ansible_os_family == 'Debian'
 
-    - name: Wait for systemd to complete initialization.  # noqa 303
+    - name: Wait for systemd to complete initialization.  # noqa command-instead-of-module
       ansible.builtin.command: systemctl is-system-running
       register: systemctl_status
       until: >
@@ -86,7 +86,7 @@
         state: present
 
     - name: "Include docker_configs_secrets_cleaner"
-      ansible.builtin.include_role:
+      ansible.builtin.include_role: # noqa: var-naming[no-role-prefix]
         name: "youtous.docker_configs_secrets_cleaner"
       vars:
         deployment_timestamp: "{{ deployment_timestamp_to_keep }}"

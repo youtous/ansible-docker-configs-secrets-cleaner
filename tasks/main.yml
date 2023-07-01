@@ -9,10 +9,10 @@
       - "deployment_timestamp must be defined an not empty"
 
 # remove old docker secrets
-- name: "docker remove old stack secrets - {{ stack_name }} | listing"
+- name: "Docker remove old stack secrets | listing - {{ stack_name }}"
   ansible.builtin.shell: >
     set -o pipefail &&
-    docker secret ls | grep -zoP '.*\s+{{ stack_name|quote }}.*(\_|\-)(?!{{ deployment_timestamp|quote }})\d+.*\n'
+    docker secret ls | grep -zoP '.*\s+{{ stack_name | quote }}.*(\_|\-)(?!{{ deployment_timestamp | quote }})\d+.*\n'
     | awk '{print $2}' | sed -r '/^\s*$/d'
   register: docker_stack_secrets
   changed_when: false
@@ -20,17 +20,17 @@
   args:
     executable: /bin/bash
 
-- name: "docker remove old stack secrets - {{ stack_name }} | removing"
+- name: "Docker remove old stack secrets | removing - {{ stack_name }}"
   community.docker.docker_secret:
     name: "{{ item }}"
     state: absent
   with_items: "{{ docker_stack_secrets.stdout_lines }}"
 
 # remove old docker configs
-- name: "docker remove old stack configs - {{ stack_name }} | listing"
+- name: "Docker remove old stack configs | listing - {{ stack_name }}"
   ansible.builtin.shell: >
     set -o pipefail &&
-    docker config ls | grep -zoP '.*\s+{{ stack_name|quote }}.*(\_|\-)(?!{{ deployment_timestamp|quote }})\d+.*\n'
+    docker config ls | grep -zoP '.*\s+{{ stack_name | quote }}.*(\_|\-)(?!{{ deployment_timestamp | quote }})\d+.*\n'
     | awk '{print $2}' | sed -r '/^\s*$/d'
   register: docker_stack_configs
   ignore_errors: true
@@ -38,7 +38,7 @@
   args:
     executable: /bin/bash
 
-- name: "docker remove old stack configs - {{ stack_name }} | removing"
+- name: "Docker remove old stack configs | removing - {{ stack_name }}"
   community.docker.docker_config:
     name: "{{ item }}"
     state: absent

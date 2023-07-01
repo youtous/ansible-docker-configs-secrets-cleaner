@@ -13,7 +13,7 @@ After a successful deployment, you might want to delete old docker secrets/confi
 Installation from [ansible galaxy](https://galaxy.ansible.com/youtous/docker_configs_secrets_cleaner): `ansible-galaxy install youtous.docker_configs_secrets_cleaner`
 
 ```yaml
-- name: docker prune secrets and configs
+- name: Docker prune secrets and configs
   ansible.builtin.include_role:
     name: youtous.docker_configs_secrets_cleaner
   vars:
@@ -56,10 +56,10 @@ configs:
     name: "{{ traefik_stack_name }}"
     compose:
       - "{{ traefik_compose_file_dest }}"
-  notify: docker prune
+  notify: Docker prune
   register: stack_deploy_status
 
-- name: docker prune secrets and configs
+- name: Docker prune secrets and configs
   ansible.builtin.include_role:
     name: youtous.docker_configs_secrets_cleaner
   vars:
