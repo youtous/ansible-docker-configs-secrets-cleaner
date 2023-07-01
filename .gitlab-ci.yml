@@ -17,6 +17,7 @@ lint:
     - pip install pipenv
     - pipenv install
   script:
+    - (test -f requirements.yml && ansible-galaxy install -r requirements.yml) || echo requirements.yml does not exist, skipping step
     - pipenv run pre-commit run --all-files --show-diff-on-failure
 
 tests-molecule:
